@@ -1,0 +1,100 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Comment {
+  id: ID!
+  text: String!
+  createdAt: DateTime!
+  user: User!
+  post: Post!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Post {
+  id: ID!
+  caption: String!
+  imageUrl: String!
+  user: User!
+  comments: [Comment]
+  createdAt: DateTime!
+}
+
+type User {
+  """The unique identifier of the user."""
+  id: Int!
+
+  """The full name of the user."""
+  fullName: String!
+
+  """The user email address."""
+  email: String!
+
+  """The user handle."""
+  handle: String!
+
+  """The creation date of the user record."""
+  createdAt: DateTime!
+
+  """The last update date of the user record."""
+  updatedAt: DateTime!
+
+  """List of posts by the user."""
+  posts: [Post]
+
+  """List of comments made by the user."""
+  comments: [Comment]
+}
+
+type AuthResponse {
+  accessToken: String!
+  user: User!
+}
+
+type Query {
+  users: [User!]!
+  user(id: Int!): User!
+  getPosts: [Post!]!
+  comments(postId: ID!): [Comment!]!
+}
+
+type Mutation {
+  accountLogin(input: AccountLoginInput!): AuthResponse!
+  accountCreate(input: AccountCreateInput!): AuthResponse!
+  createPost(createPostInput: CreatePostInput!, userId: Int!): Post!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+}
+
+input AccountLoginInput {
+  email: String!
+  password: String!
+}
+
+input AccountCreateInput {
+  """The full name of the user."""
+  fullName: String!
+
+  """The user email address."""
+  email: String!
+
+  """The user handle."""
+  handle: String!
+
+  """The user password."""
+  password: String!
+}
+
+input CreatePostInput {
+  caption: String!
+  imageUrl: String!
+}
+
+input CreateCommentInput {
+  text: String!
+  postId: ID!
+  userId: ID!
+}
